@@ -15,37 +15,19 @@ return {
     { '<leader>tt', ':Neotree toggle<CR>', desc = 'NeoTree toggle', silent = true },
     -- Reveal current file in Neo-tree
     { '<leader>tr', ':Neotree filesystem reveal<CR>', desc = 'NeoTree reveal current file', silent = true },
-    -- Increase Neo-tree width
-    {
-      '<leader>w>',
-      function()
-        require('neo-tree.ui.renderer').resize_right(5)
-      end,
-      desc = 'Increase Neo-tree width',
-    },
-    -- Decrease Neo-tree width
-    {
-      '<leader>w<',
-      function()
-        require('neo-tree.ui.renderer').resize_right(-5)
-      end,
-      desc = 'Decrease Neo-tree width',
-    },
   },
   opts = {
     filesystem = {
       filtered_items = {
         visible = true, -- show hidden files
         hide_gitignored = false,
+        hide_dotfiles = false,
       },
-      follow_current_file = true, -- optional, highlight current file
+      follow_current_file = {
+        leave_dirs_open = true,
+        enabled = true,
+      },
       use_libuv_file_watcher = true, -- Automatically updates the Neo-tree view when files change on disk, using Neovim's built-in libuv file watcher (like inotify on Linux).
-      window = {
-        width = 30,
-        mappings = {
-          ['<leader>tt'] = 'close_window', -- optional, can also leave default
-        },
-      },
     },
   },
 }

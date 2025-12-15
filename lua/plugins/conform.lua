@@ -1,40 +1,43 @@
-return { -- Autoformat
+return {
   'stevearc/conform.nvim',
   event = { 'BufWritePre' },
   cmd = { 'ConformInfo' },
   keys = {
     {
-      '<leader>nf',
+      '<leader>f',
       function()
-        require('conform').format { async = true, lsp_format = 'fallback' }
+        require('conform').format { async = true }
       end,
-      mode = '',
-      desc = '[F]ormat buffer',
+      desc = 'Format buffer',
     },
   },
   opts = {
-    notify_on_error = false,
-    format_on_save = function(bufnr)
-      -- Disable "format_on_save lsp_fallback" for languages that don't
-      -- have a well standardized coding style. You can add additional
-      -- languages here or re-enable it for the disabled ones.
-      local disable_filetypes = { c = true, cpp = true }
-      if disable_filetypes[vim.bo[bufnr].filetype] then
-        return nil
-      else
-        return {
-          timeout_ms = 500,
-          lsp_format = 'fallback',
-        }
-      end
-    end,
+    notify_on_error = true,
+
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_format = 'never',
+    },
+
     formatters_by_ft = {
+      -- JS / TS
+      javascript = { 'prettierd' },
+      typescript = { 'prettierd' },
+      javascriptreact = { 'prettierd' },
+      typescriptreact = { 'prettierd' },
+
+      -- Web
+      html = { 'prettierd' },
+      css = { 'prettierd' },
+      json = { 'prettierd' },
+      yaml = { 'prettierd' },
+      markdown = { 'prettierd' },
+
+      -- Others
       lua = { 'stylua' },
-      -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
-      --
-      -- You can use 'stop_after_first' to run the first available formatter from the list
-      -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      sh = { 'shfmt' },
+      -- go = { 'gofumpt', 'goimports' },
+      cs = { 'csharpier' },
     },
   },
 }
