@@ -27,6 +27,7 @@ return {
         leave_dirs_open = true,
         enabled = true,
       },
+      hijack_netrw_behavior = 'open_current',
       use_libuv_file_watcher = true, -- Automatically updates the Neo-tree view when files change on disk, using Neovim's built-in libuv file watcher (like inotify on Linux).
     },
   },

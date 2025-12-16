@@ -17,12 +17,31 @@ return {
     'folke/lazydev.nvim',
   },
   opts = {
-    keymap = { preset = 'default' },
+    keymap = {
+      preset = 'default',
+      ['<C-l>'] = { 'show', 'hide' },
+      ['<CR>'] = { 'accept', 'fallback' }, -- ENTER confirms completion
+      ['<Tab>'] = { 'snippet_forward', 'fallback' },
+      ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+
+      ['<C-n>'] = { 'select_next' },
+      ['<C-p>'] = { 'select_prev' },
+    },
     appearance = { nerd_font_variant = 'mono' },
-    completion = { documentation = { auto_show = false, auto_show_delay_ms = 500 } },
+    completion = {
+      documentation = {
+        auto_show = false,
+        auto_show_delay_ms = 500,
+      },
+    },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'lazydev' },
-      providers = { lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 } },
+      providers = {
+        lazydev = {
+          module = 'lazydev.integrations.blink',
+          score_offset = 100,
+        },
+      },
     },
     snippets = { preset = 'luasnip' },
     fuzzy = { implementation = 'lua' },

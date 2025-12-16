@@ -4,10 +4,11 @@ return {
   cmd = { 'ConformInfo' },
   keys = {
     {
-      '<leader>f',
+      '<leader>nf',
       function()
         require('conform').format { async = true }
       end,
+      mode = 'n',
       desc = 'Format buffer',
     },
   },

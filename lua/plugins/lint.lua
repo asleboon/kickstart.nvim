@@ -11,6 +11,13 @@ return {
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
       }
+      -- MD013 Ignore warning for lines with more than 80 chars
+      local markdownlint = require('lint').linters.markdownlint
+      markdownlint.args = {
+        '--disable',
+        'MD013',
+        '--', -- Required
+      }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
