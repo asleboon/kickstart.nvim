@@ -16,7 +16,7 @@ vim.g.have_nerd_font = true
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -94,8 +94,30 @@ vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<Enter>')
 vim.keymap.set('n', '<leader>w.', '<cmd>vertical res +10<Enter>')
 vim.keymap.set('n', '<leader>w,', '<cmd>vertical res -10<Enter>')
 
--- Diagnostic keymaps
+-- Diagnostic keymaps (duplicate)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+-- Buffer
+-- Delete current buffer
+vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>', { desc = '[B]uffer [D]elete' })
+
+-- Next / previous buffer
+vim.keymap.set('n', '<leader>bn', '<cmd>bnext<cr>', { desc = '[B]uffer [N]ext' })
+vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<cr>', { desc = '[B]uffer [P]revious' })
+
+-- Switch to last buffer
+vim.keymap.set('n', '<leader>bb', '<cmd>b#<cr>', { desc = '[B]uffer [B]ack' })
+
+-- Improve diagnostic keymap. Find next/prev and open float.
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.jump { count = 1 }
+  vim.diagnostic.open_float()
+end, { desc = 'Next diagnostic (float)' })
+
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.jump { count = -1 }
+  vim.diagnostic.open_float()
+end, { desc = 'Previous diagnostic (float)' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which

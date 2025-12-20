@@ -1,11 +1,9 @@
 return {
-  {
-    -- Fuzzy Finder (files, LSP, etc)
+  { -- Fuzzy Finder (files, LSP, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
-
       { -- optional native FZF sorter
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
@@ -13,18 +11,13 @@ return {
           return vim.fn.executable 'make' == 1
         end,
       },
-
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
-
     config = function()
       local telescope = require 'telescope'
       local builtin = require 'telescope.builtin'
 
-      -- -------------------------
-      -- Telescope setup
-      -- -------------------------
       telescope.setup {
         extensions = {
           ['ui-select'] = {
@@ -33,81 +26,50 @@ return {
         },
       }
 
-      -- Load extensions safely
+      -- Load Telescope extensions if installed
       pcall(telescope.load_extension, 'fzf')
       pcall(telescope.load_extension, 'ui-select')
 
-      -- -------------------------
-      -- Keymap helper
-      -- -------------------------
-      local map = function(lhs, rhs, desc)
-        vim.keymap.set('n', lhs, rhs, { desc = desc })
-      end
+      -- 🔍 Keymaps: replaced <leader>s* with <leader>f*
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
+      vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
 
-      -- =========================
-      -- FIND / SEARCH
-      -- =========================
-
-      map('<leader>ff', function()
+      -- Smart finder: git_files if in repo, otherwise find_files
+      vim.keymap.set('n', '<leader>ff', function()
         local ok = pcall(builtin.git_files, { show_untracked = true })
         if not ok then
           builtin.find_files()
         end
-      end, 'Find files (git-aware)')
+      end, { desc = '[F]ind [F]iles (Git-aware)' })
 
-      map('<leader>fg', builtin.live_grep, 'Live grep (project)')
-      map('<leader>fw', builtin.grep_string, 'Grep word under cursor')
-      map('<leader>fb', builtin.buffers, 'Find buffers')
-      map('<leader>fr', builtin.resume, 'Resume last picker')
-      map('<leader>f.', builtin.oldfiles, 'Recent files')
-      map('<leader>fd', builtin.diagnostics, 'Diagnostics')
-      map('<leader>fh', builtin.help_tags, 'Help tags')
-      map('<leader>fk', builtin.keymaps, 'Keymaps')
+      vim.keymap.set('n', '<leader>fb', builtin.builtin, { desc = '[F]ind [B]uiltin Pickers' })
+      vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
+      vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
+      vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
+      vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
-      map('<leader>fn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, 'Neovim config files')
-
-      -- In-buffer search
-      map('<leader>/', function()
+      -- Search in current buffer
+      vim.keymap.set('n', '<leader>/', function()
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
           previewer = false,
         })
-      end, 'Search in current buffer')
+      end, { desc = '[/] Fuzzily search in current buffer' })
 
-      map('<leader>f/', function()
+      -- Live grep only open files
+      vim.keymap.set('n', '<leader>f/', function()
         builtin.live_grep {
           grep_open_files = true,
           prompt_title = 'Live Grep in Open Files',
         }
-      end, 'Live grep (open files)')
+      end, { desc = '[F]ind [/] in Open Files' })
 
-      -- =========================
-      -- LSP / CODE NAVIGATION
-      -- =========================
-
-      -- Goto
-      map('<leader>ld', builtin.lsp_definitions, 'Goto Definition')
-      map('<leader>li', builtin.lsp_implementations, 'Goto Implementation')
-      map('<leader>lr', builtin.lsp_references, 'Goto References')
-      map('<leader>lt', builtin.lsp_type_definitions, 'Goto Type Definition')
-
-      -- Symbols
-      map('<leader>ls', builtin.lsp_document_symbols, 'Document Symbols')
-      map('<leader>lS', builtin.lsp_dynamic_workspace_symbols, 'Workspace Symbols')
-
-      -- LSP actions
-      map('<leader>ln', vim.lsp.buf.rename, 'Rename Symbol')
-      map('<leader>la', vim.lsp.buf.code_action, 'Code Action')
-
-      -- Diagnostics
-      map('<leader>le', vim.diagnostic.open_float, 'Line Diagnostics')
-      map('<leader>lq', vim.diagnostic.setloclist, 'Diagnostics List')
-
-      -- Optional: direct motions (muscle memory)
-      map('gd', vim.lsp.buf.definition, 'Goto Definition (direct)')
-      map('gr', vim.lsp.buf.references, 'Goto References (direct)')
+      -- Search Neovim config files
+      vim.keymap.set('n', '<leader>fn', function()
+        builtin.find_files { cwd = vim.fn.stdpath 'config' }
+      end, { desc = '[F]ind [N]eovim files' })
     end,
   },
 }
