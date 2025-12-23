@@ -1,8 +1,15 @@
+-- TODO:
+-- nvim-dap https://www.youtube.com/watch?v=D7XPedIn4G4
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+--
+vim.o.splitright = true
+vim.o.helpheight = 999
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
