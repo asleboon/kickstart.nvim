@@ -1,44 +1,61 @@
 return {
   'stevearc/conform.nvim',
-  event = { 'BufWritePre' },
-  cmd = { 'ConformInfo' },
+  event = 'BufWritePre',
+  cmd = 'ConformInfo',
+
   keys = {
     {
       '<leader>nf',
       function()
         require('conform').format { async = true }
       end,
-      mode = 'n',
       desc = 'Format buffer',
     },
   },
+
   opts = {
     notify_on_error = true,
 
-    format_on_save = {
-      timeout_ms = 500,
-      lsp_format = 'never',
+    -- turn off format on save for c#
+    format_on_save = function(bufnr)
+      if vim.bo[bufnr].filetype == 'cs' then
+        return
+      end
+
+      return {
+        timeout_ms = 300,
+        lsp_format = 'never',
+      }
+    end,
+
+    formatters = {
+      csharpier = {
+        command = 'csharpier',
+        stdin = false,
+        args = { 'format', '$FILENAME' },
+      },
     },
 
     formatters_by_ft = {
-      -- JS / TS
       javascript = { 'prettierd' },
       typescript = { 'prettierd' },
       javascriptreact = { 'prettierd' },
       typescriptreact = { 'prettierd' },
 
-      -- Web
       html = { 'prettierd' },
       css = { 'prettierd' },
       json = { 'prettierd' },
-      yaml = { 'prettierd' },
+
+      yaml = { 'prettierd', 'prettier' },
+      yml = { 'prettierd', 'prettier' },
+
       markdown = { 'prettierd' },
 
-      -- Others
       lua = { 'stylua' },
       sh = { 'shfmt' },
-      -- go = { 'gofumpt', 'goimports' },
+
       cs = { 'csharpier' },
+      csharp = { 'csharpier' },
     },
   },
 }

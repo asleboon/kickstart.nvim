@@ -7,6 +7,9 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- debug conform
+-- vim.g.conform_debug = true
+
 --
 vim.o.splitright = true
 vim.o.helpheight = 999
@@ -117,12 +120,12 @@ vim.keymap.set('n', '<leader>bb', '<cmd>b#<cr>', { desc = '[B]uffer [B]ack' })
 
 -- Improve diagnostic keymap. Find next/prev and open float.
 vim.keymap.set('n', ']d', function()
-  vim.diagnostic.jump { count = 1 }
+  vim.diagnostic.goto_next()
   vim.diagnostic.open_float()
 end, { desc = 'Next diagnostic (float)' })
 
 vim.keymap.set('n', '[d', function()
-  vim.diagnostic.jump { count = -1 }
+  vim.diagnostic.goto_prev()
   vim.diagnostic.open_float()
 end, { desc = 'Previous diagnostic (float)' })
 

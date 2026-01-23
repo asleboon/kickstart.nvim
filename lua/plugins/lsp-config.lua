@@ -218,7 +218,17 @@ return {
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
       -- ts_ls = {},
-      --
+
+      biome = {
+        filetypes = {
+          'javascript',
+          'javascriptreact',
+          'typescript',
+          'typescriptreact',
+          'json',
+          'jsonc',
+        },
+      },
 
       lua_ls = {
         -- cmd = { ... },
@@ -231,6 +241,19 @@ return {
             },
             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
             -- diagnostics = { disable = { 'missing-fields' } },
+          },
+        },
+      },
+      yamlls = {
+        settings = {
+          yaml = {
+            validate = true,
+            completion = true,
+            hover = true,
+
+            schemas = {
+              ['https://json.schemastore.org/github-workflow.json'] = '.github/workflows/*.{yml,yaml}',
+            },
           },
         },
       },

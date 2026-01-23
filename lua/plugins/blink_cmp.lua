@@ -11,11 +11,18 @@ return {
     keymap = {
       preset = 'default',
 
+      -- Open completion
       ['<C-Space>'] = { 'show', 'show_documentation', 'hide_documentation' },
-      ['<CR>'] = { 'accept', 'fallback' }, -- ENTER confirms completion
+      ['<C-l>'] = { 'show', 'show_documentation', 'hide_documentation' },
+
+      -- Accept
+      ['<CR>'] = { 'accept', 'fallback' },
+
+      -- Snippets
       ['<Tab>'] = { 'snippet_forward', 'fallback' },
       ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
 
+      -- Navigation
       ['<C-n>'] = { 'select_next' },
       ['<C-p>'] = { 'select_prev' },
     },
