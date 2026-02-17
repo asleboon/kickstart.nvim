@@ -18,6 +18,7 @@ return {
 
     -- turn off format on save for c#
     format_on_save = function(bufnr)
+      -- This luacheck can be ignored
       if vim.bo[bufnr].filetype == 'cs' then
         return
       end
@@ -34,22 +35,24 @@ return {
         stdin = false,
         args = { 'format', '$FILENAME' },
       },
+      biome = {
+        require_cwd = true,
+      },
     },
 
     formatters_by_ft = {
-      javascript = { 'prettierd' },
-      typescript = { 'prettierd' },
-      javascriptreact = { 'prettierd' },
-      typescriptreact = { 'prettierd' },
+      javascript = { 'prettierd', 'biome' },
+      typescript = { 'prettierd', 'biome' },
+      javascriptreact = { 'prettierd', 'biome' },
+      typescriptreact = { 'prettierd', 'biome' },
 
-      html = { 'prettierd' },
-      css = { 'prettierd' },
-      json = { 'prettierd' },
+      json = { 'prettierd', 'biome' },
+      jsonc = { 'prettierd', 'biome' },
 
-      yaml = { 'prettierd', 'prettier' },
-      yml = { 'prettierd', 'prettier' },
-
-      markdown = { 'prettierd' },
+      css = { 'prettierd', 'biome' },
+      html = { 'prettierd', 'biome' },
+      markdown = { 'prettierd', 'biome' },
+      yaml = { 'prettierd' },
 
       lua = { 'stylua' },
       sh = { 'shfmt' },

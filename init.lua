@@ -10,6 +10,10 @@ vim.g.maplocalleader = ' '
 -- debug conform
 -- vim.g.conform_debug = true
 
+-- Disable newtr
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 --
 vim.o.splitright = true
 vim.o.helpheight = 999
@@ -17,10 +21,24 @@ vim.o.helpheight = 999
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- Paste over selection without overwriting yank register
+vim.keymap.set('x', 'p', '"_dP')
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+
+-- Change how gx works. Should open filepaths in neovim
+vim.keymap.set('n', 'gx', function()
+  local target = vim.fn.expand '<cfile>'
+
+  if target:match '^https?://' then
+    vim.fn.system { 'open', target }
+  else
+    vim.cmd.edit(target)
+  end
+end, { silent = true })
 
 -- Make line numbers default
 vim.o.number = true
