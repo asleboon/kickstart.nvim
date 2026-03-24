@@ -5,21 +5,19 @@ return {
   },
   config = function()
     require('nvim-tree').setup {
-      disable_netrw = true,
-      hijack_netrw = true,
-
       -- sorting is top-level
       sort = {
         sorter = 'case_sensitive',
       },
 
       update_focused_file = {
-        enable = true,
+        enable = false,
         update_root = false,
       },
 
       filters = {
         dotfiles = false,
+        git_ignored = false,
       },
 
       actions = {
@@ -29,7 +27,7 @@ return {
       },
 
       view = {
-        width = 30,
+        width = 40,
       },
 
       renderer = {

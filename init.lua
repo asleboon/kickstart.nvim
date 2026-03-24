@@ -10,10 +10,6 @@ vim.g.maplocalleader = ' '
 -- debug conform
 -- vim.g.conform_debug = true
 
--- Disable newtr
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 --
 vim.o.splitright = true
 vim.o.helpheight = 999
@@ -39,6 +35,22 @@ vim.keymap.set('n', 'gx', function()
     vim.cmd.edit(target)
   end
 end, { silent = true })
+
+-- Prevent nvim bug to close
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function(data)
+    if vim.fn.isdirectory(data.file) == 1 then
+      -- Create a real buffer first
+      vim.cmd 'enew'
+
+      -- Change directory
+      vim.cmd.cd(data.file)
+
+      -- Open tree
+      require('nvim-tree.api').tree.open()
+    end
+  end,
+})
 
 -- Make line numbers default
 vim.o.number = true
