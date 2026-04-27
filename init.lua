@@ -213,6 +213,14 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 
+-- Ignore lsp diagnostics for .env files
+vim.api.nvim_create_autocmd('BufReadPre', {
+  pattern = '.env*',
+  callback = function()
+    vim.diagnostic.enable(false)
+  end,
+})
+
 ---@type vim.Option
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
