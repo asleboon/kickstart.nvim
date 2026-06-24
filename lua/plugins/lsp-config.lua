@@ -276,6 +276,13 @@ return {
     vim.list_extend(ensure_installed, {
       'stylua',
       'typescript-language-server',
+      -- Java: jdtls is the language server; the two bundles below give nvim-dap
+      -- breakpoint debugging + test running. jdtls itself is started by
+      -- after/ftplugin/java.lua via nvim-jdtls, NOT by the lspconfig handler above,
+      -- so it deliberately does not appear in the `servers` table.
+      'jdtls',
+      'java-debug-adapter',
+      'java-test',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
